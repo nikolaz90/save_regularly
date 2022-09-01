@@ -1,3 +1,5 @@
+const allYears = {}
+let expectedInterestRate = 0
 function createNewYear(year){
     if (typeof year !== 'number') {
         return 'Not a number, please enter a number....'
@@ -11,24 +13,40 @@ function createNewYear(year){
 }
 
 
-
-
-const allYears = {}
-
-
-
+// adding info to HTML page
 const section = document.getElementById('section-1')
 const article = document.getElementById('article-1')
-
-const list = document.createElement('li')
-
-
 const generateArticles = ()=>{
+    // potentially add a innerHTML = "" to clear any previous info?
     let yearsArray = Object.values(allYears)
     yearsArray.map((item, index)=>{
-        article.append(list, `${index + 1} : ${item.year} total amount saved is ${item.yearTotal()}
-        the average amount saved every month is ${item.yearAverage()}`)
-        // list.textContent = `${index + 1} : ${item.year} total amount saved is ${item.yearTotal()}
-        // the average amount saved every month is ${item.yearAverage()}`
+        article.innerHTML += `<li>${index + 1} : ${item.year} total amount saved is ${formatPrice(item.yearTotal())}
+        the average amount saved every month is ${formatPrice(item.yearAverage())}</li>`
     })
+
+    spanTotal.textContent = `A total of ${formatPrice(totalSavingWithoutInterest())} saved without interest included.`
+}
+
+const spanTotal = document.getElementById('total-of-totals')
+//spanTotal.textContent = totalSavingWithoutInterest()
+
+
+
+
+function addExpectedInterestRate(rate){
+    if(typeof target !== 'number'){
+        return 'Not a number, please enter a number....'
+    }else if(typeof target === 'number'){
+        expectedInterestRate = rate
+        return `Added an expected interest rate of ${rate}`
+    }
+}
+
+function totalSavingWithoutInterest(){
+    let tempArray = Object.values(allYears)
+    console.log(tempArray);
+    return tempArray.reduce((acc, curr)=>{
+        acc = acc + curr.yearTotal()
+        return acc
+    }, 0)
 }

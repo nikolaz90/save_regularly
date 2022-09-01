@@ -12,13 +12,13 @@ class YearlySavings{
         this.months = {
             january:0, 
             febuary:0, 
-            arch:0, 
+            march:0, 
             april:0, 
             may:0, june:0,
             july:0, 
             august:0, 
-            septembre:0,
-            octobre:0, 
+            september:0,
+            october:0, 
             november:0, 
             december:0
         }
@@ -37,15 +37,27 @@ class YearlySavings{
             return 'Not a number, please enter a number....'
         }else if(typeof target === 'number'){
            this.monthlyTarget = Number(target)
-           return `Monthly target of ${target} added. Nice one!`
+           return `Monthly target of ${formatPrice(target)} added. Nice one!`
         }
-        
     }
 
     addMonthlyAmount(month, amount){
-        this.months[month] = amount
+        if(typeof amount !== 'number') return 'Not a number, please enter a number....'
+        else if(typeof amount === 'number'){
+            this.months[month] = Number(amount)
+        } 
     }
 
+    addAmountToEveryMonth(amount){
+        if(typeof amount !== 'number') return 'Not a number, please enter a number....'
+        else if(typeof amount === 'number'){
+            let tempArray = Object.keys(this.months)
+            tempArray.map((item)=>{
+                this.months[item] = amount
+            })
+            return `${formatPrice(amount)} has been saved every month in ${this.year}`
+        }
+    }
 
     yearTotal(){
         const monthlyAmounts = Object.values(this.months)
